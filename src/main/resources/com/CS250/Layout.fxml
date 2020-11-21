@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.CheckMenuItem?>
+<?import javafx.scene.control.ColorPicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Ellipse?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="720.0" prefWidth="1280.0" stylesheets="@caspian.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.CS250.LayoutController">
+   <children>
+      <BorderPane fx:id="parentBorderPane" layoutX="165.0" layoutY="146.0" prefHeight="1080.0" prefWidth="1920.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <top>
+            <MenuBar BorderPane.alignment="CENTER">
+              <menus>
+                <Menu mnemonicParsing="false" text="File">
+                  <items>
+                        <MenuItem fx:id="newFile" mnemonicParsing="false" onAction="#newTabCanvas" text="New File">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="N" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator>
+                        </MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#handleImport" text="Import Image" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem fx:id="Save" mnemonicParsing="false" onAction="#handleSave" text="Save">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                    <MenuItem mnemonicParsing="false" onAction="#handleSaveAs" text="Save As">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="S" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <CheckMenuItem fx:id="checkAutosave" mnemonicParsing="false" text="Autosave Enabled" />
+                  </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edit">
+                  <items>
+                    <MenuItem fx:id="Redo" mnemonicParsing="false" onAction="#handleRedo" text="Redo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="DOWN" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem fx:id="Undo" mnemonicParsing="false" onAction="#handleUndo" text="Undo">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="Z" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#windowResize" text="Resize Canvas" />
+                  </items>
+                </Menu>
+                  <Menu mnemonicParsing="false" text="View">
+                    <items>
+                      <MenuItem mnemonicParsing="false" onAction="#zoomIn" text="Zoom In">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="ADD" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#zoomOut" text="Zoom Out">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="SUBTRACT" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#zoomReset" text="Reset Zoom">
+                           <accelerator>
+                              <KeyCodeCombination alt="UP" code="DIGIT0" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
+                           </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <CheckMenuItem fx:id="checkAutosaveView" mnemonicParsing="false" onAction="#handleAutosaveView" text="Enable Autosave Timer" />
+                    </items>
+                  </Menu>
+                <Menu mnemonicParsing="false" text="Help">
+                  <items>
+                    <MenuItem mnemonicParsing="false" onAction="#windowAbout" text="Release Notes" />
+                  </items>
+                </Menu>
+              </menus>
+            </MenuBar>
+         </top>
+         <center>
+            <TabPane fx:id="parentTabPane" blendMode="MULTIPLY" BorderPane.alignment="CENTER">
+               <BorderPane.margin>
+                  <Insets />
+               </BorderPane.margin>
+               <tabs>
+                  <Tab fx:id="initialTab" text="Untitled Image">
+                     <content>
+                        <ScrollPane blendMode="MULTIPLY" focusTraversable="false" prefHeight="200.0" prefWidth="200.0">
+                           <content>
+                              <Pane>
+                                 <children>
+                                    <Canvas fx:id="canvasTable" height="664.0" onMouseDragged="#drawDrag" onMousePressed="#drawInit" onMouseReleased="#drawReleased" width="1048.0" />
+                                    <Canvas fx:id="tempCanvas" height="664.0" onMouseDragged="#drawDrag" onMouseMoved="#drawHover" onMousePressed="#drawInit" onMouseReleased="#drawReleased" width="1048.0" />
+                                 </children>
+                              </Pane>
+                           </content>
+                        </ScrollPane>
+                     </content>
+                  </Tab>
+               </tabs>
+            </TabPane>
+         </center>
+         <left>
+            <SplitPane dividerPositions="0.33073367995378394" focusTraversable="false" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0" BorderPane.alignment="CENTER">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <ColorPicker fx:id="colorPicker" layoutX="6.0" layoutY="153.0" onAction="#colorChooser" prefHeight="28.0" prefWidth="146.0" promptText="#000000" styleClass="button" />
+                        <Label focusTraversable="false" layoutX="6.0" layoutY="195.0" text="Color Code:" />
+                        <TextField fx:id="colorHex" alignment="CENTER" layoutX="73.0" layoutY="190.0" onAction="#changeColorHex" prefHeight="26.0" prefWidth="78.0" text="#000000" />
+                        <Circle fx:id="colorCircle" layoutX="79.0" layoutY="71.0" radius="57.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+                     <children>
+                        <VBox prefHeight="460.8" prefWidth="158.4" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <VBox prefHeight="207.0" prefWidth="158.0">
+                                 <children>
+                                    <Pane minHeight="-Infinity" prefHeight="99.0" prefWidth="158.0">
+                                       <children>
+                                          <Circle fx:id="lineCircle" layoutX="79.0" layoutY="49.0" radius="43.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" />
+                                          <Label fx:id="lineText" alignment="CENTER" contentDisplay="CENTER" layoutX="65.0" layoutY="40.0" text="TEXT" textAlignment="CENTER" visible="false" />
+                                       </children>
+                                    </Pane>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="27.0" prefWidth="60.0" text="Line Width" textAlignment="CENTER" />
+                                          <TextField fx:id="lineWidth" alignment="CENTER" minHeight="-Infinity" minWidth="-Infinity" onAction="#changeLineWidth" prefHeight="26.0" prefWidth="93.0" text="2" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Slider fx:id="sliderLineWidth" blockIncrement="1.0" focusTraversable="false" min="1.0" onMouseClicked="#changeLineWidthSlider" onMouseDragged="#changeLineWidthSlider" value="2.0">
+                                       <VBox.margin>
+                                          <Insets left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                    </Slider>
+                                    <HBox prefHeight="100.0" prefWidth="200.0">
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" prefHeight="27.0" prefWidth="62.0" text="Opacity" textAlignment="CENTER" textFill="#ff6c6c" />
+                                          <TextField fx:id="lineOpacity" alignment="CENTER" focusTraversable="false" onAction="#changeLineOpacity" prefHeight="26.0" prefWidth="92.0" text="100" />
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" top="5.0" />
+                                       </VBox.margin>
+                                    </HBox>
+                                    <Slider fx:id="sliderOpacity" focusTraversable="false" maxHeight="-Infinity" minHeight="-Infinity" onMouseClicked="#changeOpacitySlider" onMouseDragged="#changeOpacitySlider" prefHeight="10.0" prefWidth="148.0" value="100.0">
+                                       <VBox.margin>
+                                          <Insets bottom="5.0" left="5.0" right="5.0" />
+                                       </VBox.margin>
+                                    </Slider>
+                                 </children>
+                              </VBox>
+                              <HBox fx:id="lineTextOptions" alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" prefHeight="50.0" prefWidth="158.0" visible="false">
+                                 <children>
+                                    <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="18.0" prefWidth="66.0" text="Text Stamp">
+                                       <HBox.margin>
+                                          <Insets left="10.0" right="5.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <TextArea fx:id="lineTextInput" maxHeight="-Infinity" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="26.0" prefWidth="78.0" promptText="Sample Text">
+                                       <HBox.margin>
+                                          <Insets right="5.0" />
+                                       </HBox.margin>
+                                       <font>
+                                          <Font size="11.0" />
+                                       </font>
+                                    </TextArea>
+                                 </children>
+                              </HBox>
+                              <Separator maxHeight="-Infinity" minHeight="-Infinity" prefHeight="2.0" prefWidth="160.0">
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                              </Separator>
+                              <ScrollPane prefHeight="250.0" prefWidth="158.0">
+                                 <content>
+                                    <GridPane prefHeight="86.0" prefWidth="156.0">
+                                      <columnConstraints>
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="94.39999389648438" minWidth="10.0" prefWidth="79.80001068115234" />
+                                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="146.39998626708984" minWidth="10.0" prefWidth="78.19998931884766" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <ToggleButton fx:id="brushPen" contentDisplay="CENTER" focusTraversable="false" mnemonicParsing="false" onAction="#switchBrush" prefHeight="26.0" prefWidth="78.0" text="Pen" textAlignment="CENTER" />
+                                          <ToggleButton fx:id="brushEraser" focusTraversable="false" mnemonicParsing="false" onAction="#switchBrush" prefHeight="26.0" prefWidth="78.0" text="Eraser" textAlignment="CENTER" GridPane.columnIndex="1" />
+                                       </children>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
+                           </children>
+                        </VBox>
+                     </children>
+                  </AnchorPane>
+              </items>
+            </SplitPane>
+         </left>
+         <right>
+            <VBox prefHeight="696.0" prefWidth="73.0" BorderPane.alignment="CENTER">
+               <children>
+                  <GridPane hgap="5.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="toolText" contentDisplay="CENTER" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#specToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../imgs/toolTextImg.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolCircle" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Circle fill="#1f93ff00" radius="7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolSquare" contentDisplay="CENTER" focusTraversable="false" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Rectangle fill="#1f93ff00" height="15.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" translateY="1.0" width="15.0" />
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolFreeDraw" contentDisplay="CENTER" focusTraversable="false" graphicTextGap="0.0" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <graphic>
+                              <ImageView fitHeight="13.0" nodeOrientation="INHERIT" pickOnBounds="true">
+                                 <image>
+                                    <Image url="@../../imgs/freeDrawImg.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolLine" contentDisplay="CENTER" focusTraversable="false" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Line endX="3.2785584926605225" endY="-0.304452508687973" rotate="-36.5" startX="-15.0" strokeWidth="2.0" />
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolOval" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Ellipse fill="#1f93ff00" radiusX="10.0" radiusY="7.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" />
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolRectangle" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Rectangle fill="#1f93ff00" height="12.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="2.0" translateY="1.0" width="20.0" />
+                           </graphic></ToggleButton>
+                        <ToggleButton fx:id="toolPolygon" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                           <graphic>
+                              <SVGPath content="M 500 150 L 400 150 L 350 250 L 400 350 L 500 350 L 550 250 L 500 150 " fill="#853a3a00" scaleX="0.08" scaleY="0.07" scaleZ="0.0" stroke="BLACK" strokeWidth="20.0" translateX="0.5" translateY="0.5" />
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toolTriangle" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#drawToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                           <graphic>
+                              <Polygon fill="#0084ff00" scaleX="0.15" scaleY="0.15" stroke="BLACK" strokeType="INSIDE" strokeWidth="13.0">
+                                <points>
+                                  <Double fx:value="-50.0" />
+                                  <Double fx:value="40.0" />
+                                  <Double fx:value="50.0" />
+                                  <Double fx:value="40.0" />
+                                  <Double fx:value="0.0" />
+                                  <Double fx:value="-60.0" />
+                                </points>
+                              </Polygon>
+                           </graphic>
+                        </ToggleButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="2.0" right="2.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <GridPane hgap="5.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="toolDropper" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="33.0">
+                           <graphic>
+                              <ImageView fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../imgs/toolDropperImg.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></ToggleButton>
+                     </children>
+                     <VBox.margin>
+                        <Insets left="1.0" right="2.0" top="5.0" />
+                     </VBox.margin>
+                  </GridPane>
+                  <GridPane>
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                     <children>
+                        <ToggleButton fx:id="toolSelectMove" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#specToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../imgs/toolMoveSelectImg.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </ToggleButton>
+                        <ToggleButton fx:id="toolSelectRect" contentDisplay="CENTER" graphicTextGap="0.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#specToolSwitch" prefHeight="26.0" prefWidth="33.0" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+                           <font>
+                              <Font name="Arial" size="10.0" />
+                           </font>
+                           <graphic>
+                              <ImageView fitHeight="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../imgs/toolSelectRectImg.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </ToggleButton>
+                     </children>
+                  </GridPane>
+               </children>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

@@ -1,0 +1,33 @@
+	 Shannon Hollinrake's 
+ NBPaint - 10/25/2020 - Release Notes
+	     Version 6.0
+_______________________________________
+
+New Features:
+        **Special Feature**
+        Added ability to use and change the opacity of the drawing tools
+        Added ability to save transparent images
+        *******************
+        Replaced some of the Button Images in the toolbar
+        Added Triangle tool
+        Added some Test code for the new canvas tab functions
+        Added Tooltips for some tools that weren't easily understandable
+        Added Javadoc for some functions that aren't easily understandable
+        Added a Polygon tool, closes the shape on "Shift + Enter"
+        Added a tool log for debugging
+        Added ability to see Autosave timer
+	Added Autosave functionality
+        Added ability to have multiple canvases opened at one time
+
+Known Issues:
+	Image becomes blurrier when selection move is finalized, 
+		however the image becomes clearer when undoing
+        Undo/Redo causes slight pixelization the first time they're used on newly drawn lines.
+        Image move finalization doesn't keep opacity, makes transparent pixels into white ones.
+
+Potential Features:
+	Ability to change default Hotkey settings
+
+Links:
+	Version Playlist: https://www.youtube.com/playlist?list=PLFB52656u2pQbMzLGRZRDxog_RFbjRtLx
+	Github: https://github.com/Metiastar/Maven-NetBeansPaint
