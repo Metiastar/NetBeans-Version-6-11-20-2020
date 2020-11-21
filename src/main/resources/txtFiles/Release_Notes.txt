@@ -30,4 +30,4 @@ Potential Features:
 
 Links:
 	Version Playlist: https://www.youtube.com/playlist?list=PLFB52656u2pQbMzLGRZRDxog_RFbjRtLx
-	Github: https://github.com/Metiastar/Maven-NetBeansPaint
+	Github: https://github.com/Metiastar/NetBeans-Version-6-11-20-2020
