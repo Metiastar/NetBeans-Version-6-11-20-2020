@@ -23,11 +23,11 @@ Known Issues:
 	Image becomes blurrier when selection move is finalized, 
 		however the image becomes clearer when undoing
         Undo/Redo causes slight pixelization the first time they're used on newly drawn lines.
-        Image move finalization doesn't keep opacity, makes transparent pixels into white ones.
 
 Potential Features:
 	Ability to change default Hotkey settings
 
 Links:
 	Version Playlist: https://www.youtube.com/playlist?list=PLFB52656u2pQbMzLGRZRDxog_RFbjRtLx
+	Version Video: http://youtu.be/D3LtFDkAP-0?hd=1
 	Github: https://github.com/Metiastar/NetBeans-Version-6-11-20-2020
